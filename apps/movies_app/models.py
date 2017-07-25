@@ -1,6 +1,34 @@
-# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
 from django.db import models
-
-# Create your models here.
+import re
+import datetime
+EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
+class UserManager(models.Manager):
+    def user_validator(self, postData):
+        errors = {}
+        if len(postData['name']) < 2:
+            errors["name"] = "First name should be more than 2 characters"
+        if len(postData['username']) < 2:
+            errors["username"] = "Username should be more than 2 characters"
+        if not re.match(EMAIL_REGEX, postData['email'] ):
+            errors["email"] = "Email needs to be valid"
+        if len(postData['password']) < 8:
+            errors["password"] = "Password should be 8 charcters or more"
+        if postData['password'] != postData['confirm']:
+            errors['confirm'] = 'Password has to match confirmation'
+        if str(postData['birth']) > str(datetime.date.today()):
+            errors['birth'] = 'You havent been born yet?'
+        if len(postData['zip']) != 5:
+            errors['zip'] = 'Please enter a valid zip code'
+        return errors
+class User(models.Model):
+    name = models.CharField(max_length=255)
+    username = models.CharField(max_length=255)
+    email = models.CharField(max_length=255)
+    password = models.CharField(max_length=255)
+    birthday = models.DateField()
+    zip = models.IntergerField()
+    objects = UserManager()
+class Movie(models.Model):
+    movie = models.CharField(max_length=255)
+    users = models.ManyToManyField(User, related_name = 'movies')
