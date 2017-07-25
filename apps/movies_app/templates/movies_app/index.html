@@ -3,6 +3,15 @@
         <title>Welcome to Movies</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src= 'http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+        <script>
+          $(document).ready(function(){
+            $('.register').hide();
+            $('#show').click(function(){
+              $('.register').show();
+            })
+          })
+          </script>
         <style>
             div.login{
                 display: inline-block;
@@ -32,6 +41,7 @@
                 Password:  <input type="password" name="password"><br><br>
                 <input type="submit" value="Login"><br><br>
             </form>
+            <button id="show" type="button" name="button">register</button>
         </div>
         <div class="register">
             <h1>Register</h1>
