@@ -14,21 +14,23 @@ class UserManager(models.Manager):
             errors["email"] = "Email needs to be valid"
         if len(postData['password']) < 8:
             errors["password"] = "Password should be 8 charcters or more"
-        if postData['password'] != postData['confirm']:
-            errors['confirm'] = 'Password has to match confirmation'
+        if postData['password'] != postData['confirm_password']:
+            errors['confirm_password'] = 'Password has to match confirmation'
         if str(postData['birth']) > str(datetime.date.today()):
             errors['birth'] = 'You havent been born yet?'
-        if len(postData['zip']) != 5:
-            errors['zip'] = 'Please enter a valid zip code'
+        if len(postData['zipCode']) != 5:
+            errors['zipCode'] = 'Please enter a valid zip code'
         return errors
+
 class User(models.Model):
     name = models.CharField(max_length=255)
     username = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
     birthday = models.DateField()
-    zip = models.IntergerField()
+    zipCode = models.IntegerField()
     objects = UserManager()
+
 class Movie(models.Model):
     movie = models.CharField(max_length=255)
     users = models.ManyToManyField(User, related_name = 'movies')
