@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Welcome to Movies</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src= 'http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+       <!--  <script>
+          var api_key = 'sszbbjhadk82fc9nh469bs2k';
+          var baseUrl = "http://data.tmsapi.com/v1.1";
+          var showtimesUrl = baseUrl + '/movies/showings';
+          var zipCode = "95128";  //should be the zip of currently lgged in user
+          var d = new Date();  //i need this to be in a session storing the data from the date feild
+          var today = d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate();
+          $(document).ready(function(){
+            $.ajax({
+              url: showtimesUrl,
+                data: { startDate: today,
+                  zip: zipCode,
+                  jsonp: "dataHandler",
+                  api_key: api_key
+                  },
+                dataType: "jsonp",
+              });
+            });
+            function dataHandler(data) {
+              console.log('<p>Found ' + data.length + ' movies showing within 5 miles of ' + zipCode+':</p>')
+              $.each(data, function(index, movie) {
+                console.log(movie.title);
+                console.log(movie.rootId);
+                console.log(movie.showtimes[0].theatre.name);
+                $('.pop').append('<p>'+ movie.title + '</p>' + '<p>' + movie.showtimes[0].theatre.name + '</p>' + '<button type="button" name="button"><a href="/movies/'+movie.rootId+'">select</a></button>');
+                //the button is going to link to a url with the movie.rootId
+                //MYRON LOOK AT THIS
+              })
+            }
+          </script>
+ -->
+          <script>
+            $(document).ready(function(){
+              $('.pop').append('');
+              $('.other_movies').hide();
+              $('button.other').click(function(){
+                $('.other_movies').show();
+              })
+              $('.dates').hide();
+              $('button.movies_date').click(function(){
+                  $('.dates').show();
+              })
+            })
+          </script>
+    </head>
+    <body>
+        <h1>welcome {{ request.session.user_name }}</h1>
+        <div class="movie">
+          <h2>Select a movie</h2>
+          <div class="pop">
+            <img src="" alt="poster goes here">
+            <button class="other" type="button" name="button">Other movies</button>
+          </div>
+          <div class="other_movies">
+            <img src="" alt="poster goes here">
+            <button type="button" name="button"><a href="#">select</a></button>
+          </div>
+        </div>
+        <div class="date">
+          <button class="movies_date" type="button" name="button">date</button>
+          <!-- <p id=dates>moives on that day (number of people goind)</p> -->
+          <form class="" action="index.html" method="post">
+            {% csrf_token %}
+            <input class=dates type="date" name="date" value="">
+            <input class=dates type="submit" name="" value="">
+          </form>
+        </div>
+        <div class="user">
+          <form class="" action="index.html" method="post">
+            {% csrf_token %}
+            <input type="text" name="" value="">
+            <input type="submit" name="" value="">
+          </form>
+          <p>list of usernames that match that name</p>
+        </div>
+    </body>
+</html>
